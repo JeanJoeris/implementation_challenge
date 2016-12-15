@@ -26,11 +26,11 @@ class Categorizer
 
   def get_ls1_category(num_chairs)
     if num_chairs < 10
-      'ls1 small'
+      "ls1 small"
     elsif num_chairs < 100
-      'ls1 medium'
+      "ls1 medium"
     else
-      'ls1 large'
+      "ls1 large"
     end
   end
 
@@ -43,13 +43,11 @@ class Categorizer
   end
 
   def median_ls2_chairs
-    StreetCafe.order(num_chairs: :desc).to_a[StreetCafe.count/2].num_chairs
+    ls2_locations = StreetCafe.where("post_code LIKE 'LS2%'").order(num_chairs: :desc)
+    ls2_locations.to_a[ls2_locations.count/2].num_chairs
   end
 
   def post_code_prefix(post_code)
     post_code.split(" ").first
   end
 end
-
-categorizer = Categorizer.new(StreetCafe.all)
-categorizer.categorize_cafes
